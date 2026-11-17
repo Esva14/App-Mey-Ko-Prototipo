@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="es-HN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#004b87">
+  <meta name="description" content="Propuesta móvil navegable para la tienda de salud Mey-Ko.">
+  <title>App Mey-Ko Prototipo</title>
+  <link rel="stylesheet" href="estilos.css">
+  <script src="catalogo.js" defer></script>
+  <script src="sucursales.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="app" id="app">
+    <p class="demo-strip">Prototipo · usa datos de ejemplo</p>
+    <header id="header" class="top"></header>
+    <main id="pantalla"><noscript>Activa JavaScript para recorrer la propuesta.</noscript></main>
+    <nav id="tabs" class="tabs" aria-label="Navegación principal"></nav>
+    <dialog id="menu" aria-labelledby="menu-title"></dialog>
+    <div class="toast" id="toast" hidden>
+      <span id="toast-message" role="status"></span>
+      <a id="toast-cart" href="#carrito" hidden>Ver carrito</a>
+    </div>
+  </div>
+</body>
+</html>
