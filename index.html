@@ -6,16 +6,16 @@
   <meta name="theme-color" content="#004b87">
   <meta name="description" content="Propuesta móvil navegable para la tienda de salud Mey-Ko.">
   <title>App Mey-Ko Prototipo</title>
-  <link rel="stylesheet" href="estilos.css">
-  <script src="catalogo.js" defer></script>
-  <script src="sucursales.js" defer></script>
-  <script src="app.js" defer></script>
+  <link rel="stylesheet" href="css/estilos.css">
+  <script src="js/data/catalogo.js" defer></script>
+  <script src="js/data/sucursales.js" defer></script>
+  <script src="js/app.js" defer></script>
 </head>
 <body>
   <div class="app" id="app">
     <p class="demo-strip">Prototipo · usa datos de ejemplo</p>
     <header id="header" class="top"></header>
-    <main id="pantalla"><noscript>Activa JavaScript para recorrer la propuesta.</noscript></main>
+    <main id="pantalla" tabindex="-1"><noscript>Activa JavaScript para recorrer la propuesta.</noscript></main>
     <nav id="tabs" class="tabs" aria-label="Navegación principal"></nav>
     <dialog id="menu" aria-labelledby="menu-title"></dialog>
     <div class="toast" id="toast" hidden>

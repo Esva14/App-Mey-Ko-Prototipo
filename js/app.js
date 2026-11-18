@@ -63,12 +63,8 @@ const icon = (name) =>
   paths[name] +
   '"/></svg>';
 const logo = () =>
-  '<img class="brand" src="mey-ko.png" alt="Mey-Ko" width="480" height="138">';
-const categories = [
-  ["diagnostico", "Diagnóstico", "pulse", "diagnostico.png"],
-  ["diabetes", "Diabetes", "drop", "diabetes.png"],
-  ["primeros-auxilios", "Primeros auxilios", "cross", "primeros auxilios.png"],
-];
+  '<img class="brand" src="assets/images/marca/mey-ko.png" alt="Mey-Ko" width="480" height="138">';
+const categories = window.MeykoCatalogo.categorias.filter(({ id }) => id !== "todo");
 const specialtySite = "https://www.meyko.com";
 // Listado y fotos de https://www.meyko.com/especialidades.
 const specialties = [
@@ -172,7 +168,7 @@ const go = (to) => {
   else location.hash = to;
 };
 const img = (file, alt = "", extra = "") =>
-  '<img src="assets/' + file + '" alt="' + h(alt) + '" ' + extra + ">";
+  '<img src="assets/images/' + file + '" alt="' + h(alt) + '" ' + extra + ">";
 const link = (to, label, cls = "primary", glyph = "") =>
   '<a class="btn ' +
   cls +
@@ -212,14 +208,16 @@ const icoBtn = (glyph, label, action, extra = "") =>
   ">" +
   icon(glyph) +
   "</button>";
-const intro = (label, title, sub = "") =>
-  '<div class="intro"><p class="eyebrow">' +
-  label +
-  '</p><h1 tabindex="-1">' +
-  title +
-  "</h1>" +
-  (sub ? '<p class="sub">' + sub + "</p>" : "") +
-  "</div>";
+function intro(label, title, sub = "") {
+  // Las vistas operativas se identifican en el encabezado de la app.
+  const hasContextHeading = ["acceso", "pago", "confirmacion"].includes(route.name);
+  if (!hasContextHeading) {
+    return sub ? '<div class="view-note"><p class="sub">' + sub + "</p></div>" : "";
+  }
+  return '<div class="intro"><p class="eyebrow">' + label +
+    '</p><h1 tabindex="-1">' + title + "</h1>" +
+    (sub ? '<p class="sub">' + sub + "</p>" : "") + "</div>";
+}
 const sectionHead = (title, to, label) =>
   '<div class="section-head"><h2>' +
   title +
@@ -276,7 +274,7 @@ function tile(p) {
     '" aria-label="' +
     h(p.nombre) +
     '">' +
-    img(p.imagen.replace("assets/", ""), "", 'loading="lazy"') +
+    img(p.imagen, "", 'loading="lazy"') +
     "</a>" +
     wish(p) +
     '</div><div class="product-info"><span class="meta">' +
@@ -302,17 +300,17 @@ function tile(p) {
 }
 const tiles = (list) =>
   '<div class="products">' + list.map(tile).join("") + "</div>";
-const categoriesGrid = () =>
+const categoriesGrid = (items = categories) =>
   '<div class="categories">' +
-  categories
+  items
     .map(
-      ([id, label, glyph, photo]) =>
+      ({ id, nombre, imagen }) =>
         '<a href="#productos/' +
         id +
         '"><span class="category-photo">' +
-        img(photo) +
+        img(imagen) +
         "</span><strong>" +
-        label +
+        h(nombre) +
         "</strong></a>",
     )
     .join("") +
@@ -411,7 +409,7 @@ function home() {
     link("tienda", "Explorar tienda", "primary", "arrow") +
     '</div></section><section class="pad home-section">' +
     sectionHead("Compra por categoría", "tienda", "Ver todas") +
-    categoriesGrid() +
+    categoriesGrid(categories.slice(0, 3)) +
     '</section><section class="pad home-section">' +
     sectionHead("Accesos rápidos") +
     '<div class="shortcuts"><a href="#whatsapp"><span class="round">' +
@@ -449,7 +447,7 @@ function shop() {
 function results(key) {
   const searching = key.startsWith("buscar/");
   const query = searching ? key.slice(7) : "";
-  const current = categories.find((c) => c[0] === key);
+  const current = categories.find((category) => category.id === key);
   const list = productos.filter((p) =>
     searching
       ? normal(p.nombre + " " + p.busqueda + " " + p.marca).includes(
@@ -461,19 +459,19 @@ function results(key) {
     '<section class="pad">' +
     intro(
       "Tienda",
-      searching ? "Resultados" : current?.[1] || "Todos los productos",
+      searching ? "Resultados" : current?.nombre || "Todos los productos",
     ) +
     search(query) +
     '<div class="filters" aria-label="Filtrar por categoría">' +
-    [["todo", "Todos"], ...categories]
+    window.MeykoCatalogo.categorias
       .map(
-        ([id, label]) =>
+        ({ id, nombre }) =>
           "<a " +
           (key === id ? 'aria-current="page"' : "") +
           ' href="#productos/' +
           id +
           '">' +
-          label +
+          h(nombre) +
           "</a>",
       )
       .join("") +
@@ -541,7 +539,7 @@ function detail(p) {
         "arrow",
       );
   return `<article class="detail">
-    <div class="detail-media">${img(p.imagen.replace("assets/", ""), p.nombre)}${wish(p)}</div>
+    <div class="detail-media">${img(p.imagen, p.nombre)}${wish(p)}</div>
     <div class="pad detail-info">
       <p class="eyebrow">${h(p.marca)} · Ref. ${h(p.sku)}</p>
       <h1 tabindex="-1">${h(p.nombre)}</h1>
@@ -555,7 +553,7 @@ function detail(p) {
             (
               alternative,
             ) => `<a class="row alternative" href="#producto/${alternative.id}">
-          ${img(alternative.imagen.replace("assets/", ""))}
+          ${img(alternative.imagen)}
           <span><strong>${h(alternative.nombre)}</strong><small>${money(alternative.precio)}</small></span>
           ${icon("chevron")}
         </a>`,
@@ -603,11 +601,11 @@ function promos() {
     'Promociones de muestra</div><div class="spaced">' +
     sectionHead("De temporada") +
     '<div class="promo-collage"><a href="#producto/glucometro">' +
-    img("combo.jpg") +
+    img("banners/combo.jpg") +
     "<span>Control de glucosa " +
     icon("arrow") +
     '</span></a><a href="#producto/oximetro">' +
-    img("cuidadoencasa.png") +
+    img("categorias/cuidado-casa.png") +
     "<span>Monitoreo en casa " +
     icon("arrow") +
     '</span></a></div></div><div class="spaced">' +
@@ -617,9 +615,8 @@ function promos() {
   );
 }
 function specialtiesPage() {
-  return `<section aria-labelledby="specialty-title">
+  return `<section aria-label="Especialidades médicas">
     <div class="pad specialty-intro">
-      <h1 id="specialty-title" tabindex="-1">Especialidades médicas</h1>
       <p class="sub">Explora los equipos y soluciones de Mey-Ko por área clínica.</p>
     </div>
     <div class="pad specialty-grid">
@@ -630,7 +627,7 @@ function specialtiesPage() {
 function specialtyCard([slug, name, description], index) {
   return `<details class="specialty-card" name="especialidades">
     <summary>
-      <img src="assets/especialidades/${slug}.jpg" alt="" width="240" height="150"
+      <img src="assets/images/especialidades/${slug}.jpg" alt="" width="240" height="150"
         loading="${index < 2 ? "eager" : "lazy"}" decoding="async">
       <span class="specialty-toggle" aria-hidden="true">${icon("plus")}${icon("minus")}</span>
       <span class="specialty-name">${h(name)}</span>
@@ -669,7 +666,7 @@ function cartLine(p) {
       ) +
       "</div>";
   return `<article class="cart-row">
-    <a href="#producto/${p.id}">${img(p.imagen.replace("assets/", ""), p.nombre)}</a>
+    <a href="#producto/${p.id}">${img(p.imagen, p.nombre)}</a>
     <div><a href="#producto/${p.id}"><strong>${h(p.nombre)}</strong></a>
       <span>${money(p.precio)}</span>${controls}
     </div>
@@ -808,9 +805,8 @@ function wishesPage() {
 function branches() {
   const departments = [...new Set(branchDirectory.map(({ department }) => department))]
     .sort((a, b) => a.localeCompare(b, "es-HN"));
-  return `<section class="branch-directory" aria-labelledby="branch-title">
+  return `<section class="branch-directory" aria-label="Sucursales">
     <div class="pad branch-intro">
-      <h1 id="branch-title" tabindex="-1">Nuestras sucursales</h1>
       <p class="sub">Consulta la dirección y el horario antes de visitarnos.</p>
       <label class="search">
         ${icon("search")}
@@ -842,7 +838,7 @@ function branches() {
 function branchCard({ id, name, city, department, address, hours, map }, index) {
   return `<article class="branch-card" aria-labelledby="branch-${id}">
     <div class="branch-photo">
-      <img src="assets/sucursales/${id}.jpg" alt="Sucursal Mey-Ko ${h(name)}"
+      <img src="assets/images/sucursales/${id}.jpg" alt="Sucursal Mey-Ko ${h(name)}"
         width="352" height="168" loading="${index === 0 ? "eager" : "lazy"}"
         decoding="async">
     </div>
@@ -1009,7 +1005,6 @@ const backTo = {
 const tabs = [
   ["inicio", "home", "Inicio"],
   ["tienda", "grid", "Tienda"],
-  ["promos", "tag", "Ofertas"],
   ["carrito", "bag", "Carrito"],
   ["perfil", "user", "Cuenta"],
 ];
@@ -1031,6 +1026,10 @@ function chrome() {
         : "inicio"
       : backTo[name];
   const initial = name === "inicio";
+  const currentCategory = categories.find(({ id }) => id === route.key);
+  const headerTitle = name === "productos"
+    ? currentCategory?.nombre || "Productos"
+    : routes[name];
   $("header").innerHTML =
     (back
       ? '<a class="icon-btn" href="#' +
@@ -1041,13 +1040,13 @@ function chrome() {
         icon("back") +
         "</a>"
       : icoBtn("menu", "Abrir menú", "open-menu")) +
-    (initial || onboarding
+    (initial || name === "acceso"
       ? '<a href="#' +
         (initial ? "inicio" : "bienvenida") +
         '" class="top-brand" aria-label="Mey-Ko">' +
         logo() +
         "</a>"
-      : '<span class="top-title">' + routes[name] + "</span>") +
+      : '<span class="top-title">' + h(headerTitle) + "</span>") +
     (onboarding
       ? '<span class="top-spacer"></span>'
       : '<a class="icon-btn top-cart" href="#carrito" aria-label="Carrito, ' +
@@ -1144,11 +1143,12 @@ function render(focus = false) {
     whatsapp: () => whatsappPage(product(key)),
   };
   chrome();
+  $("pantalla").setAttribute("aria-label", routes[name]);
   $("pantalla").innerHTML = '<div class="view">' + view[name]() + "</div>";
   if (name === "sucursales") mountBranches();
   if (focus) {
     window.scrollTo(0, 0);
-    $("pantalla").querySelector("h1")?.focus({ preventScroll: true });
+    ($("pantalla").querySelector("h1") || $("pantalla")).focus({ preventScroll: true });
   }
 }
 function hideFeedback() {
@@ -1230,7 +1230,7 @@ document.addEventListener("click", (e) => {
     save();
     if (route.name === "deseos") {
       render();
-      $("pantalla").querySelector("h1")?.focus({ preventScroll: true });
+      ($("pantalla").querySelector("h1") || $("pantalla")).focus({ preventScroll: true });
     } else {
       b.setAttribute("aria-pressed", selected(id));
       b.setAttribute(
@@ -1269,7 +1269,7 @@ document.addEventListener("click", (e) => {
     state.stockChange = null;
     save();
     render();
-    $("pantalla").querySelector("h1")?.focus({ preventScroll: true });
+    ($("pantalla").querySelector("h1") || $("pantalla")).focus({ preventScroll: true });
     feedback("Disponibilidad de prueba restablecida");
   }
   if (action === "cart-qty" || action === "remove") {
@@ -1292,7 +1292,7 @@ document.addEventListener("click", (e) => {
           el.dataset.id === id && el.dataset.delta === delta && !el.disabled,
       ) ||
       buttons.find((el) => el.dataset.id === id && !el.disabled) ||
-      $("pantalla").querySelector("h1")
+      $("pantalla")
     )?.focus({ preventScroll: true });
   }
   if (action === "fill-delivery") {

@@ -30,6 +30,9 @@ img{display:block;width:100%;object-fit:cover}
 .brand{display:block;width:110px;height:auto;object-fit:contain}
 .pad{padding-inline:var(--pad)}
 .intro{padding-block:18px 24px}
+.view-note{padding-block:12px 16px}
+#pantalla:focus:not(:focus-visible){outline:none}
+.view>section.pad{padding-top:10px}
 .eyebrow{font-size:10.5px;font-weight:750;line-height:1.5;letter-spacing:.14em;text-transform:uppercase;color:var(--blue)}
 h1{color:var(--ink);font-size:clamp(30px,9vw,39px);font-weight:700;line-height:1.04;letter-spacing:-.056em;overflow-wrap:anywhere}
 .intro h1,.detail h1{margin-top:8px}
@@ -50,7 +53,7 @@ small{display:block;color:var(--muted);font-size:12px;line-height:1.45}
 .stack{gap:14px}
 .round{display:grid;place-items:center;width:46px;height:46px;border-radius:50%;flex:none;background:var(--soft);color:var(--blue)}
 .welcome{display:flex;flex-direction:column;min-height:calc(100svh - 28px);background:#fff}
-.welcome-visual{position:relative;display:flex;flex:1 0 auto;min-height:clamp(375px,71svh,760px);flex-direction:column;align-items:flex-start;padding:calc(33px + env(safe-area-inset-top)) 27px 24px;overflow:hidden;border-radius:0 0 48% 8% / 0 0 6% 5%;background:#e6ded2 url("cuidado-en-casa.jpg") 66% 65% / auto 105% no-repeat;animation:portrait .95s ease-out both}
+.welcome-visual{position:relative;display:flex;flex:1 0 auto;min-height:clamp(375px,71svh,760px);flex-direction:column;align-items:flex-start;padding:calc(33px + env(safe-area-inset-top)) 27px 24px;overflow:hidden;border-radius:0 0 48% 8% / 0 0 6% 5%;background:#e6ded2 url("../assets/images/banners/cuidado-en-casa.jpg") 66% 65% / auto 105% no-repeat;animation:portrait .95s ease-out both}
 .welcome-logo{padding:8px 13px 10px 10px;border-radius:40px;background:#ffffffed;box-shadow:0 2px 14px #312c1b0c;animation:arrive .45s .07s both}
 .welcome-logo .brand{width:158px}
 .welcome-caption{margin-top:clamp(22px,5vh,55px);animation:arrive .58s .16s both}
@@ -81,7 +84,7 @@ small{display:block;color:var(--muted);font-size:12px;line-height:1.45}
 .search input::placeholder{color:var(--muted);font-size:14px}
 .search button{display:grid;place-items:center;width:42px;height:42px;padding:0;border:0;border-radius:12px;background:transparent;color:var(--blue)}
 .home-search{padding-block:3px 13px}
-.home-hero{position:relative;display:flex;align-items:center;min-height:208px;padding:16px var(--pad);isolation:isolate;overflow:hidden;background:#e8e0d4 url("cuidado-en-casa.jpg") center 73% / cover no-repeat;border-radius:0 0 42px 15px}
+.home-hero{position:relative;display:flex;align-items:center;min-height:208px;padding:16px var(--pad);isolation:isolate;overflow:hidden;background:#e8e0d4 url("../assets/images/banners/cuidado-en-casa.jpg") center 73% / cover no-repeat;border-radius:0 0 42px 15px}
 .home-hero::before{position:absolute;z-index:-1;inset:0;content:"";background:linear-gradient(90deg,#f9f5ed 0%,#f9f5edf2 27%,#f9f5ed8c 51%,transparent 75%)}
 .hero-copy{align-self:center;width:64%;animation:arrive .48s .1s both}
 .hero-copy h1{font-size:clamp(30px,9vw,41px);margin:8px 0 10px}
@@ -141,7 +144,7 @@ small{display:block;color:var(--muted);font-size:12px;line-height:1.45}
 .stepper{display:flex;align-items:center;gap:1px;border-radius:14px;background:var(--mist);color:var(--blue)}
 .stepper .icon-btn{width:44px;height:44px}
 .stepper output{min-width:24px;text-align:center;font-size:14px;font-weight:700}
-.tabs{display:grid;grid-template-columns:repeat(5,1fr);padding-inline:6px;min-height:var(--foot)}
+.tabs{display:grid;grid-template-columns:repeat(4,1fr);padding-inline:6px;min-height:var(--foot)}
 .tabs a{display:grid;align-content:center;justify-items:center;gap:4px;font-size:10px;font-weight:650;color:var(--muted)}
 .tabs .icon{box-sizing:content-box;padding:5px 11px;border-radius:15px}
 .tabs a[aria-current]{color:var(--blue);font-weight:780}
@@ -153,7 +156,7 @@ dialog::backdrop{background:#061e46a1;animation:appear .24s both}
 .menu-bottom{padding-top:20px;margin-top:auto}
 .menu-top .brand{width:126px}
 dialog .row{min-height:56px}
-.promo-hero{position:relative;display:flex;align-items:flex-end;min-height:210px;border-radius:22px 46px 24px 22px;padding:19px;overflow:hidden;isolation:isolate;background:#104879 url("assets/hero.jpg") 66% 60% / cover no-repeat}
+.promo-hero{position:relative;display:flex;align-items:flex-end;min-height:210px;border-radius:22px 46px 24px 22px;padding:19px;overflow:hidden;isolation:isolate;background:#104879 url("../assets/images/banners/hero.jpg") 66% 60% / cover no-repeat}
 .promo-hero::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,#083963 2%,#083963df 29%,#08396373 53%,#0839630a 100%)}
 .promo-hero h2{color:white;font-size:29px;max-width:12ch;margin:4px 0 13px}
 .promo-hero .eyebrow{color:white}
