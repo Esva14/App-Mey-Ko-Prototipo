@@ -2,6 +2,26 @@
 
 Abre `index.html` desde esta carpeta. En una computadora, la propuesta conserva el ancho de una app móvil. Puedes mover la carpeta completa: incluye los datos y las imágenes que necesita la demo.
 
+El archivo de entrada está en la raíz. La estructura del prototipo es la siguiente.
+
+```text
+index.html
+css/estilos.css
+js/app.js
+js/data/catalogo.js
+js/data/sucursales.js
+assets/images/
+  marca/
+  productos/
+  categorias/
+  banners/
+  especialidades/
+  sucursales/
+docs/fuentes-imagenes.md
+```
+
+Las categorías se mantienen en `js/data/catalogo.js`. Tienda muestra todas en tres columnas y cada categoría define su imagen relativa a `assets/images/`. Inicio presenta las primeras tres. El menú inferior contiene Inicio, Tienda, Carrito y Cuenta. Promociones se encuentra en el menú hamburguesa.
+
 **Tesis visual:** una tienda de salud cercana y tranquila, con blanco, azul Pantone, luz natural y curvas amplias reservadas para las imágenes y los accesos principales.
 
 **Contenido:** bienvenida e ingreso, inicio personalizado con búsqueda y accesos a atención, tienda por categorías, ficha y carrito. Promociones, especialidades y sucursales complementan la compra; Cuenta reúne deseos e historial.
